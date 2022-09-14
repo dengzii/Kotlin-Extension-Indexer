@@ -10,7 +10,7 @@ apply(null, "idea", null)
 apply(null, "org.jetbrains.intellij", null)
 
 group = "com.dengzii.plugin"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
