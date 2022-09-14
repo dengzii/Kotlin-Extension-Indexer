@@ -1,0 +1,1 @@
+rootProject.name = "kt_ext_indexer"
