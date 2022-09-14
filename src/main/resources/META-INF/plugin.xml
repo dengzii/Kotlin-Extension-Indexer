@@ -4,10 +4,10 @@
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzii</vendor>
 
     <description><![CDATA[
-    A tool for listing all Kotlin class extension methods.<br>
+    A tool for listing the Kotlin extension methods of a class or interface.<br>
     <br>
     After enabling the plugin, you will see an icon in front of the
-    name of the Kotlin class that has the extension method, click the icon to view all extension method of this class.
+    name of the class or interface that has the extension method, click the icon to view all extension method.
   ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
@@ -18,6 +18,9 @@
     <extensions defaultExtensionNs="com.intellij">
         <codeInsight.lineMarkerProvider
                 language="kotlin"
+                implementationClass="com.dengzii.plugin.kt_ext_indexer.LineMarkerProviderImpl"/>
+        <codeInsight.lineMarkerProvider
+                language="JAVA"
                 implementationClass="com.dengzii.plugin.kt_ext_indexer.LineMarkerProviderImpl"/>
     </extensions>
 </idea-plugin>

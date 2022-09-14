@@ -5,10 +5,7 @@ import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.lang.Language;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNameIdentifierOwner;
-import com.intellij.psi.PsiReference;
+import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.ProjectScope;
 import com.intellij.psi.search.searches.ReferencesSearch;
@@ -17,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.psi.KtClass;
 import org.jetbrains.kotlin.psi.KtFunction;
 import org.jetbrains.kotlin.psi.KtNamedFunction;
+import org.jetbrains.kotlin.psi.KtUserType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +35,7 @@ public class LineMarkerProviderImpl implements LineMarkerProvider {
                 if (nameIdentifier == null) {
                     continue;
                 }
-                return new LineMarkerInfo<>(nameIdentifier, nameIdentifier.getTextRange(), ShowExtIcon.icon,
-                        null, SHOW_RECEIVERS, GutterIconRenderer.Alignment.LEFT, () -> "extension methods");
+                return new LineMarkerInfo<>(nameIdentifier, nameIdentifier.getTextRange(), ShowExtIcon.icon, null, SHOW_RECEIVERS, GutterIconRenderer.Alignment.LEFT, () -> "extension methods");
             }
         }
         return null;
@@ -50,24 +47,24 @@ public class LineMarkerProviderImpl implements LineMarkerProvider {
         }
 
         PsiElement element = reference.getElement();
-        PsiElement funcEle = element;
-        for (int i = 0; i < 3; i++) {
-            if (element.getParent() == null) {
-                return null;
-            }
-            funcEle = funcEle.getParent();
-        }
-        if (!(funcEle instanceof KtNamedFunction)) {
+        PsiElement userType = element.getParent();
+        if (!(userType instanceof KtUserType)) {
             return null;
         }
-        return (KtNamedFunction) funcEle;
+        PsiElement ref = userType.getParent();
+
+        PsiElement fun = ref.getParent();
+        if (!(fun instanceof KtNamedFunction)) {
+            return null;
+        }
+        return (KtNamedFunction) fun;
     }
 
     private static final GutterIconNavigationHandler<PsiElement> SHOW_RECEIVERS = (e, psiElement) -> {
-        KtClass ktClass = ((KtClass) psiElement.getParent());
+        PsiElement clazz = psiElement.getParent();
 
-        GlobalSearchScope allScope = ProjectScope.getProjectScope(ktClass.getProject());
-        Query<PsiReference> search = ReferencesSearch.search(ktClass, allScope);
+        GlobalSearchScope allScope = ProjectScope.getProjectScope(clazz.getProject());
+        Query<PsiReference> search = ReferencesSearch.search(clazz, allScope);
 
         List<KtFunction> functions = new ArrayList<>();
         for (PsiReference r : search) {
@@ -76,7 +73,6 @@ public class LineMarkerProviderImpl implements LineMarkerProvider {
                 functions.add(fun);
             }
         }
-        System.out.println("LineMarkerProviderImpl.show");
         ExtMethodListPopup.show(functions, e);
     };
 

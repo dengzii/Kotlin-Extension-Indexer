@@ -52,6 +52,7 @@ public class ExtMethodListPopup {
 
         public ListPopupStepImp(List<KtFunction> functions) {
             this.functions = functions;
+            this.functions.add(null);
         }
 
         @Override
@@ -61,16 +62,22 @@ public class ExtMethodListPopup {
 
         @Override
         public boolean isSelectable(KtFunction value) {
-            return true;
+            return value != null;
         }
 
         @Override
         public @Nullable Icon getIconFor(KtFunction value) {
+            if (value == null) {
+                return null;
+            }
             return ShowExtIcon.icon;
         }
 
         @Override
         public @NlsContexts.ListItem @NotNull String getTextFor(KtFunction value) {
+            if (value == null) {
+                return "Non-Project";
+            }
             return value.getContainingKtFile().getName() + "  " + value.getName();
         }
 
@@ -91,13 +98,16 @@ public class ExtMethodListPopup {
 
         @Override
         public @Nullable PopupStep<?> onChosen(KtFunction selectedValue, boolean finalChoice) {
+            if (selectedValue == null) {
+                return null;
+            }
             selectedListener.onSelected(selectedValue);
             return FINAL_CHOICE;
         }
 
         @Override
         public boolean hasSubstep(KtFunction selectedValue) {
-            return false;
+            return selectedValue == null;
         }
 
         @Override
