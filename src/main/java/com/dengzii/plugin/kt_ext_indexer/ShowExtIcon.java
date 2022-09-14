@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class ShowExtIcon {
     private static Icon load() {
-        return IconLoader.getIcon("/icons/show_ext.svg", ShowExtIcon.class);
+        return IconLoader.getIcon("/icons/icon.png", ShowExtIcon.class);
     }
 
     public static final Icon icon = load();
