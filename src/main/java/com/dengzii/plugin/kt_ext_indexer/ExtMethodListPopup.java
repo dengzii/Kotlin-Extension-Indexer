@@ -1,12 +1,8 @@
 package com.dengzii.plugin.kt_ext_indexer;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.ui.popup.*;
 import com.intellij.openapi.util.NlsContexts;
 import com.intellij.ui.awt.RelativePoint;
-import org.apache.commons.lang.text.StrBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.kotlin.psi.KtFunction;
@@ -16,18 +12,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ExtMethodListPopup {
-
-    static void show1(List<KtFunction> functions) {
-
-        StrBuilder b = new StrBuilder();
-        for (KtFunction fun : functions) {
-            b.append(fun.getContainingFile().getName() + ": " + fun.getName() + ", \n");
-        }
-
-        Notification n = new Notification("kt_ext_indexer", b.toString(), NotificationType.INFORMATION);
-        Notifications.Bus.notify(n);
-    }
-
     static void show(List<KtFunction> functions, MouseEvent e) {
 
         final RelativePoint popupPosition = RelativePoint.fromScreen(e.getLocationOnScreen());
@@ -52,7 +36,7 @@ public class ExtMethodListPopup {
 
         public ListPopupStepImp(List<KtFunction> functions) {
             this.functions = functions;
-            this.functions.add(null);
+//            this.functions.add(null);
         }
 
         @Override

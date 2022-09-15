@@ -10,7 +10,7 @@ apply(null, "idea", null)
 apply(null, "org.jetbrains.intellij", null)
 
 group = "com.dengzii.plugin"
-version = "1.1"
+version = "1.2"
 
 repositories {
     mavenCentral()
@@ -37,7 +37,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("193")
+        sinceBuild.set("203")
         untilBuild.set("222.*")
     }
 
