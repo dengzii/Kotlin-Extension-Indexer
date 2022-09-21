@@ -1,13 +1,13 @@
 <idea-plugin>
     <id>com.dengzii.plugin.kt_ext_indexer</id>
-    <name>Kotlin Extension Method Indexer</name>
+    <name>Kotlin Extension Indexer</name>
     <vendor email="dengzii@foxmail.com" url="https://github.com/dengzii">dengzii</vendor>
 
     <description><![CDATA[
-    A tool for listing the Kotlin extension methods of a class or interface.<br>
+    A tool for indexing the Kotlin extension methods/properties.<br>
     <br>
-    After enabling the plugin, you will see an icon in front of the
-    name of the class or interface that has the extension method, click the icon to view all extension method.
+    After enabling the plugin, you will see an icon on the left side of the
+    name of the class or interface that has the extension method or properties, click the icon to view all extensions.
   ]]></description>
 
     <depends>com.intellij.modules.platform</depends>

@@ -5,7 +5,9 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.ui.awt.RelativePoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.kotlin.idea.KotlinIcons;
 import org.jetbrains.kotlin.psi.KtCallableDeclaration;
+import org.jetbrains.kotlin.psi.KtFunction;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -52,7 +54,7 @@ public class ExtMethodListPopup {
             if (value == null) {
                 return null;
             }
-            return ShowExtIcon.icon;
+            return value instanceof KtFunction ? KotlinIcons.EXTENSION_FUNCTION : KotlinIcons.FIELD_VAL;
         }
 
         @Override
@@ -75,7 +77,7 @@ public class ExtMethodListPopup {
 
         @Override
         public @NlsContexts.PopupTitle @Nullable String getTitle() {
-            return "Extension Methods";
+            return "Extension Methods/Properties";
         }
 
         @Override
