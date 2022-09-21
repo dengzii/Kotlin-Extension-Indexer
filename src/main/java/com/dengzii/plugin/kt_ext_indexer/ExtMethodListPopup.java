@@ -5,17 +5,16 @@ import com.intellij.openapi.util.NlsContexts;
 import com.intellij.ui.awt.RelativePoint;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.kotlin.psi.KtFunction;
+import org.jetbrains.kotlin.psi.KtCallableDeclaration;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ExtMethodListPopup {
-    static void show(List<KtFunction> functions, MouseEvent e) {
-
+    static void show(List<KtCallableDeclaration> declarations, MouseEvent e) {
         final RelativePoint popupPosition = RelativePoint.fromScreen(e.getLocationOnScreen());
-        ListPopupStepImp step = new ListPopupStepImp(functions);
+        ListPopupStepImp step = new ListPopupStepImp(declarations);
         step.selectedListener = ktFunction -> {
             if (ktFunction.canNavigate()) {
                 ktFunction.navigate(true);
@@ -29,28 +28,27 @@ public class ExtMethodListPopup {
         void onSelected(T t);
     }
 
-    static class ListPopupStepImp implements ListPopupStep<KtFunction> {
+    static class ListPopupStepImp implements ListPopupStep<KtCallableDeclaration> {
 
-        List<KtFunction> functions;
-        OnSelectedListener<KtFunction> selectedListener;
+        final List<KtCallableDeclaration> declarations;
+        OnSelectedListener<KtCallableDeclaration> selectedListener;
 
-        public ListPopupStepImp(List<KtFunction> functions) {
-            this.functions = functions;
-//            this.functions.add(null);
+        public ListPopupStepImp(List<KtCallableDeclaration> declarations) {
+            this.declarations = declarations;
         }
 
         @Override
-        public @NotNull List<KtFunction> getValues() {
-            return functions;
+        public @NotNull List<KtCallableDeclaration> getValues() {
+            return declarations;
         }
 
         @Override
-        public boolean isSelectable(KtFunction value) {
+        public boolean isSelectable(KtCallableDeclaration value) {
             return value != null;
         }
 
         @Override
-        public @Nullable Icon getIconFor(KtFunction value) {
+        public @Nullable Icon getIconFor(KtCallableDeclaration value) {
             if (value == null) {
                 return null;
             }
@@ -58,7 +56,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public @NlsContexts.ListItem @NotNull String getTextFor(KtFunction value) {
+        public @NlsContexts.ListItem @NotNull String getTextFor(KtCallableDeclaration value) {
             if (value == null) {
                 return "Non-Project";
             }
@@ -66,7 +64,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public @Nullable ListSeparator getSeparatorAbove(KtFunction value) {
+        public @Nullable ListSeparator getSeparatorAbove(KtCallableDeclaration value) {
             return null;
         }
 
@@ -81,7 +79,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public @Nullable PopupStep<?> onChosen(KtFunction selectedValue, boolean finalChoice) {
+        public @Nullable PopupStep<?> onChosen(KtCallableDeclaration selectedValue, boolean finalChoice) {
             if (selectedValue == null) {
                 return null;
             }
@@ -90,7 +88,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public boolean hasSubstep(KtFunction selectedValue) {
+        public boolean hasSubstep(KtCallableDeclaration selectedValue) {
             return selectedValue == null;
         }
 
@@ -105,7 +103,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public @Nullable MnemonicNavigationFilter<KtFunction> getMnemonicNavigationFilter() {
+        public @Nullable MnemonicNavigationFilter<KtCallableDeclaration> getMnemonicNavigationFilter() {
             return null;
         }
 
@@ -115,7 +113,7 @@ public class ExtMethodListPopup {
         }
 
         @Override
-        public @Nullable SpeedSearchFilter<KtFunction> getSpeedSearchFilter() {
+        public @Nullable SpeedSearchFilter<KtCallableDeclaration> getSpeedSearchFilter() {
             return null;
         }
 
